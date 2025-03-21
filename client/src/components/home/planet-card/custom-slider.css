@@ -1,0 +1,8 @@
+.slick-dots {
+    position: relative;
+    margin-bottom: 1em;
+  }
+
+.catalog-slider .slick-dots li.slick-active button:before {
+    color: #1E90FF;
+}
