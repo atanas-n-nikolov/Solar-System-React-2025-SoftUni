@@ -11,7 +11,7 @@ export default function Home() {
         {
             name: 'Sun',
             type: 'Star',
-            image: '/images/sun.png',
+            image: '/images/sun.jpg',
         },
         {
             name: 'Mercury',
