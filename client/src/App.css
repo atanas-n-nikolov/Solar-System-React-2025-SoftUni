@@ -5,6 +5,14 @@
   margin: 0;
 }
 
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  background-color: #eee;
+}
+
 html {
   box-sizing: border-box;
   font: 16px/1.5 "Roboto", sans-serif;
@@ -15,14 +23,17 @@ html {
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   background-color: #111;
 }
 
-#root {
-  background-color: #eee;
+.app-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.main-content {
+  flex: 1;
 }
 
 img {
