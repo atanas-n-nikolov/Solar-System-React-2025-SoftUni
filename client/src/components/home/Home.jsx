@@ -16,23 +16,44 @@ export default function Home() {
         {
             name: 'Mercury',
             type: 'Planet',
-            image: '/images/mercury.png',
+            image: '/images/mercury.jpg',
         },
         {
             name: 'Earth',
             type: 'Planet',
-            image: '/images/earth.png',
+            image: '/images/earth.jpg',
         },
         {
             name: 'Jupiter',
             type: 'Gas Giant',
-            image: '/images/jupiter.png',
+            image: '/images/jupiter.jpg',
         },
         {
-            name: 'Pluto',
+            name: 'Saturn',
             type: 'Dwarf Planet',
-            image: '/images/neptune.png',
+            image: '/images/saturn.jpg',
         },
+        {
+            name: 'Venus',
+            type: 'Dwarf Planet',
+            image: '/images/venus.jpg',
+        },
+        {
+            name: 'Mars',
+            type: 'Dwarf Planet',
+            image: '/images/mars.jpg',
+        },
+        {
+            name: 'Uranus',
+            type: 'Dwarf Planet',
+            image: '/images/uranus.jpg',
+        },
+        {
+            name: 'Neptune',
+            type: 'Dwarf Planet',
+            image: '/images/neptune.jpg',
+        },
+        
     ];
 
     const settings = {
