@@ -19,9 +19,19 @@ export default function Home() {
             image: '/images/mercury.jpg',
         },
         {
+            name: 'Venus',
+            type: 'Dwarf Planet',
+            image: '/images/venus.jpg',
+        },
+        {
             name: 'Earth',
             type: 'Planet',
             image: '/images/earth.jpg',
+        },
+        {
+            name: 'Mars',
+            type: 'Dwarf Planet',
+            image: '/images/mars.jpg',
         },
         {
             name: 'Jupiter',
@@ -32,16 +42,6 @@ export default function Home() {
             name: 'Saturn',
             type: 'Dwarf Planet',
             image: '/images/saturn.jpg',
-        },
-        {
-            name: 'Venus',
-            type: 'Dwarf Planet',
-            image: '/images/venus.jpg',
-        },
-        {
-            name: 'Mars',
-            type: 'Dwarf Planet',
-            image: '/images/mars.jpg',
         },
         {
             name: 'Uranus',
