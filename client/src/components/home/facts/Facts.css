@@ -1,3 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap'); 
+
+.fact {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: #111;
+}
+
 .random-day {
     display: flex;
     align-items: center;
@@ -6,15 +16,8 @@
     gap: 2em;
     justify-content: space-between;
     flex-wrap: wrap;
-    box-shadow: 0 0 0.5em 0 rgba(255, 255, 255, 0.4);
-    padding: 2em;
+    padding: 10em 4em;
     border-radius: 0.5em;
-    transition: box-shadow 0.2s ease-in, transform 0.2s ease-in;
-}
-
-.random-day:hover {
-    transform: translateY(-0.5em);
-    box-shadow: 0 0 1em 0 rgb(255, 255, 255);
 }
 
 .fact-header {
@@ -24,32 +27,37 @@
     align-items: flex-start;
 }
 
+.fact-header h2, .fact-content h3, .fact-content p {
+    color: #fff;
+}
+
 .fact-header h2 {
+    font-family: "Anton", sans-serif;
+    font-weight: 400;
     font-size: 6em;
     line-height: 1.3;
-    font-weight: bold;
 }
 
 .fact-content {
     display: flex;
-    max-width: 55ch;
+    max-width: 65ch;
     flex-direction: column;
 }
 
 h3 {
     font-size: 1.5em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 .title {
     font-size: 1.25em;
     font-weight: bold;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 .description {
     font-size: 1em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
 }
 
 .source {
@@ -62,4 +70,19 @@ h3 {
 
 .source a:hover {
     text-decoration: underline;
+}
+
+.facts-desc-small {
+    padding-right: 0.5em;
+    font-family: 'Pacifico', cursive;
+    font-size: 1em; 
+    letter-spacing: 0.05em; 
+    color: #f4d03f;
+}
+
+.facts-desc-large {
+    font-size: 1.5rem;
+    color: #fff; 
+    font-weight: 700; 
+    letter-spacing: 0.1em; 
 }

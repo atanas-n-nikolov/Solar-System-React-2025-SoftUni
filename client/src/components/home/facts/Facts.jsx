@@ -1,23 +1,25 @@
-import { Link } from 'react-router';
 import './Facts.css';
 
 export default function Facts() {
     return (
-        <article className="random-day">
+        <article className="fact">
+            <div className="random-day">
             <div className="fact-header">
                 <h2>
-                    Did you know<br />
-                    on this day ...
+                    DID YOU KNOW<br />
+                    ON THIS DAY ...
                 </h2>
             </div>
             <div className="fact-content">
-                <h3>2004</h3>
-                <p className="title">Landing of the Spirit rover on Mars</p>
-                <p className="description">
-                    NASA's Spirit rover successfully landed on Mars to search for evidence
-                    of past water activity.
+                <h3><span className="facts-desc-small">IN:</span><span className="facts-desc-large">2004</span></h3>
+                <p className="title">
+                    <span className="facts-desc-small">THE:</span><span className="facts-desc-large">Landing of the Spirit rover on Mars</span>
                 </p>
-                <p className="source"><Link to="https://mars.nasa.gov">NASA</Link></p>
+                <p className="description">
+                <span className="facts-desc-small">DESC:</span><span className="facts-desc-large">NASA's Spirit rover successfully landed on Mars to search for evidence
+                    of past water activity.</span>
+                </p>
+            </div>
             </div>
         </article>
     );
