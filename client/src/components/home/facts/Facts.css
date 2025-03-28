@@ -1,0 +1,65 @@
+.random-day {
+    display: flex;
+    align-items: center;
+    max-width: 1400px;
+    width: 100%;
+    gap: 2em;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-shadow: 0 0 0.5em 0 rgba(255, 255, 255, 0.4);
+    padding: 2em;
+    border-radius: 0.5em;
+    transition: box-shadow 0.2s ease-in, transform 0.2s ease-in;
+}
+
+.random-day:hover {
+    transform: translateY(-0.5em);
+    box-shadow: 0 0 1em 0 rgb(255, 255, 255);
+}
+
+.fact-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.fact-header h2 {
+    font-size: 6em;
+    line-height: 1.3;
+    font-weight: bold;
+}
+
+.fact-content {
+    display: flex;
+    max-width: 55ch;
+    flex-direction: column;
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+}
+
+.title {
+    font-size: 1.25em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+.description {
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+.source {
+    font-size: 0.9em;
+}
+
+.source a {
+    text-decoration: none;
+}
+
+.source a:hover {
+    text-decoration: underline;
+}
