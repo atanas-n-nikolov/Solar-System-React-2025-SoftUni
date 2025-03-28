@@ -6,6 +6,8 @@ import Home from './components/home/Home'
 import HeroSection from './components/home/hero-section/HeroSection'
 import LastQuestion from './components/home/last-question/LastQuestion'
 import Planets from './components/planets/Planets'
+import Register from './components/register/Register'
+import Login from './components/login/Login'
 
 export default function App() {
 
@@ -22,6 +24,8 @@ export default function App() {
                         </>}>
                         </Route>
                         <Route path="/planets" element={<Planets />} />
+                        <Route path="/sign-up" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
                     </Routes>
                 </main>
                 <Footer />
