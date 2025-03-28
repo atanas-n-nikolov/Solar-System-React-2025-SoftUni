@@ -1,0 +1,31 @@
+.filter-input {
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.planet-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.planet-item {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 8px;
+  width: 200px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.planet-item h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.planet-item p {
+  font-size: 14px;
+}
