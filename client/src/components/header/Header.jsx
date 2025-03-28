@@ -24,8 +24,8 @@ export default function Header() {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link to="/catalog" className="nav-link">
-                                Catalog
+                            <Link to="/planets" className="nav-link">
+                                Planets
                             </Link>
                         </li>
                         <li className="nav-item">
