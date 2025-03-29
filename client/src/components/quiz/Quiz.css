@@ -5,7 +5,15 @@
     padding: 2em;
 }
 
+.welcome {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2em;
+}
+
 .quiz-intro {
+    max-width: 40ch;
     font-size: 1.1em;
     color: #333;
     margin-bottom: 1em;
@@ -16,7 +24,6 @@
 .quiz-title {
     font-size: 2em;
     font-weight: bold;
-    margin-bottom: 1.5em;
     text-align: center;
 }
 
@@ -107,4 +114,8 @@
     font-size: 0.9em;
     color: #6fc3df;
     font-weight: bold;
+}
+
+.quiz-image {
+    width: 20%;
 }
