@@ -1,58 +1,19 @@
-import { useState } from 'react';
 import './Quiz.css';
+import { useQuiz } from '../../api/quizAPI';
+import { Link } from 'react-router';
 
 export default function Quiz() {
+    const { quiz } = useQuiz();
 
-    const quizzes = [
-        {
-            id: 1,
-            title: 'JavaScript Galaxy',
-            description: 'Begin your journey through the JavaScript system.',
-            questionsCount: 10,
-            difficulty: 'Cadet',
-        },
-        {
-            id: 2,
-            title: 'React Nebula',
-            description: 'Navigate through complex React components.',
-            questionsCount: 15,
-            difficulty: 'Commander',
-        },
-        {
-            id: 3,
-            title: 'CSS Meteor Field',
-            description: 'Dodge tricky selectors and animations.',
-            questionsCount: 12,
-            difficulty: 'Explorer',
-        },
-        {
-            id: 4,
-            title: 'HTML Launchpad',
-            description: 'Launch your adventure from the basics of HTML.',
-            questionsCount: 8,
-            difficulty: 'Cadet',
-        },
-    ];
+    const categories = quiz.reduce((acc, question) => {
+        if (!acc[question.category]) {
+            acc[question.category] = [];
+        }
+        acc[question.category].push(question);
+        return acc;
+    }, {});
 
-    const [selectedDifficulty, setSelectedDifficulty] = useState('All');
-    const [isSelected, setIsSelected] = useState(false);
-
-    const handleDifficultyChange = (event) => {
-        const selected = event.target.value;
-        setSelectedDifficulty(selected);
-        setIsSelected(selected !== 'All');
-    };
-
-    const handleClearFilter = () => {
-        setSelectedDifficulty('All');
-        setIsSelected(false);
-    };
-
-    const filteredQuizzes =
-        selectedDifficulty === 'All'
-            ? quizzes
-            : quizzes.filter((quiz) => quiz.difficulty === selectedDifficulty);
-
+    console.log(categories);
 
     return (
         <div className="quiz-container">
@@ -63,38 +24,19 @@ export default function Quiz() {
                     Welcome, space traveler! Prepare to embark on a journey across galaxies of knowledge. Choose your mission and begin your quest!
                 </p>
             </div>
-
-            <div className="quiz-filter">
-                <label htmlFor="difficulty-select">Select mission difficulty:</label>
-                <select
-                    id="difficulty-select"
-                    value={selectedDifficulty}
-                    onChange={handleDifficultyChange}
-                >
-                    <option value="All">All Missions</option>
-                    <option value="Cadet">Cadet</option>
-                    <option value="Explorer">Explorer</option>
-                    <option value="Commander">Commander</option>
-                </select>
-
-                {isSelected && (
-                    <button className="clear-filter-button" onClick={handleClearFilter}>
-                        X
-                    </button>
-                )}
-            </div>
-
+        {quiz.length > 0 ? (
             <div className="quiz-grid">
-                {filteredQuizzes.map((quiz) => (
-                    <div key={quiz.id} className="quiz-card">
-                        <h2 className="quiz-card-title">{quiz.title}</h2>
-                        <p className="quiz-card-description">{quiz.description}</p>
-                        <p className="quiz-card-count">Questions: {quiz.questionsCount}</p>
-                        <p className="quiz-card-difficulty">Mission Level: {quiz.difficulty}</p>
-                        <button className="quiz-button">Launch Mission</button>
+                {Object.keys(categories).map((category) => (
+                    <div key={category} className="quiz-card">
+                        <h2 className="quiz-card-title">{category} Missions</h2>
+                        <p className="quiz-card-count">Number of Questions: {categories[category].length}</p>
+                        <p className="quiz-card-difficulty">Mission Level: {category}</p>
+                        <Link to={`/quiz/${category}`} className="quiz-button">Launch Mission</Link>
                     </div>
                 ))}
             </div>
+        ) : <h1 className="quiz-title">Not quiz yet</h1>}
+            
         </div>
-    )
+    );
 }

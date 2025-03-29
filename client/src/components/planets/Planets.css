@@ -1,3 +1,7 @@
+.planets-wrapper {
+  min-height: 80vh;
+}
+
 .filter-input {
   padding: 10px;
   margin-bottom: 20px;

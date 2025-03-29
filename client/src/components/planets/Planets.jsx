@@ -22,7 +22,7 @@ export default function Planets() {
     );
 
     return (
-        <div className="wrapper">
+        <div className="planets-wrapper">
             <div className="wrapper">
                 <h1>Solar System Planets</h1>
 
