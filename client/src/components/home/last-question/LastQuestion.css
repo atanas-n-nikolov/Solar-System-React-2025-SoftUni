@@ -5,22 +5,23 @@
 
 .home-container {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     padding: 2em 1.5em;
     max-width: 1400px;
     margin: 0 auto;
-    gap: 2em;
+    gap: 4em;
   }
 
   .home-left {
-    padding: 1.4em;
-    max-width: 900px;
+    max-width: 800px;
   }
   
   .home-right {
     display: flex;
     flex-direction: column;
     max-width: 400px;
+    min-height: 200px;
     gap: 2em;
     align-items: center;
     padding: 1.5em;
@@ -30,6 +31,7 @@
   }
   
   .home-start-button {
+    text-decoration: none;
     background-color: #1E90FF;
     color: white;
     padding: 1em 2em;

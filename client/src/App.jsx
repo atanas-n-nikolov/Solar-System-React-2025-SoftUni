@@ -22,10 +22,6 @@ export default function App() {
                         <Route path="/" element={<>
                             <HeroSection />
                             <Home />
-                            <section className="something">
-                                <Facts />
-                                <LastQuestion />
-                            </section>
                         </>}>
                         </Route>
                         <Route path="/planets" element={<Planets />} />

@@ -55,6 +55,7 @@
 }
 
 .card-button {
+    text-decoration: none;
     position: absolute;
     bottom: 1em;
     left: 50%;
@@ -79,4 +80,10 @@
 
 .card-button:hover {
     background-color: #0056b3;
+}
+
+.planets-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 10em 2em;
 }
