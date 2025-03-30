@@ -1,0 +1,57 @@
+.quiz-wrapper {
+    padding: 4em 0;
+}
+
+.quiz-form {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2em;
+    background-color: #f4f7fa;
+    border-radius: 0.5em;
+    box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.1);
+}
+
+.quiz-form h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin-bottom: 1em;
+}
+
+.quiz-form div {
+    margin-bottom: 1.5em;
+}
+
+.quiz-form label {
+    margin-left: 0.7em;
+    color: #333;
+}
+
+.quiz-form input[type="radio"] {
+    margin-right: 0.6em;
+    transform: scale(1.2);
+}
+
+button {
+    padding: 0.7em;
+    font-size: 1.1em;
+    width: 100px;
+    background-color: #1E90FF;
+    color: white;
+    border: none;
+    border-radius: 0.3em;
+    cursor: pointer;
+    margin-top: 1.3em;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+h2.no-quiz {
+    font-size: 1.2em;
+    color: #555;
+    text-align: center;
+    margin-top: 1.4em;
+}

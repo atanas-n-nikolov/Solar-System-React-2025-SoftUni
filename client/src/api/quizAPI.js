@@ -30,3 +30,14 @@ export const useLatestQuiz = () => {
 
     return { latestQuiz };
 };
+
+export const useQuizCategory = (category) => {
+    const [quiz, setQuiz] = useState([]);
+
+    useEffect(() => {
+        request.get(`${baseUrl}?where=category%3D%22${category}%22`).then(setQuiz)
+
+    }, [category]);
+
+    return { quiz };
+};
