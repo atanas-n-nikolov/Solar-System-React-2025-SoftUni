@@ -8,6 +8,10 @@ export default function Planets() {
     return (
         <div className="planets-wrapper">
                 <h1 className="planets-header">Solar System Planets</h1>
+            <div className="welcome">
+                <img className="welcome-image" src="images/planets-image.png" alt="planets-image" />
+                <p className="welcome-intro">Welcome, cosmic explorer! Prepare to venture through the vast wonders of our solar system. Discover the secrets of each planet and explore their unique characteristics. Select your planet and begin your celestial journey!</p>
+            </div>
             <div className="wrapper-p">
                 {planets.length > 0 ? (
                     planets.map(planet => {

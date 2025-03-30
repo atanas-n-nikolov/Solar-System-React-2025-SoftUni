@@ -18,7 +18,7 @@ export default function Quiz() {
             <h1 className="quiz-title">Quiz Quest</h1>
             <div className="welcome">
                 <img className="quiz-image" src="images/quiz-image.png" alt="quiz-image" />
-                <p className="quiz-intro">
+                <p className="welcome-intro">
                     Welcome, space traveler! Prepare to embark on a journey across galaxies of knowledge. Choose your mission and begin your quest!
                 </p>
             </div>

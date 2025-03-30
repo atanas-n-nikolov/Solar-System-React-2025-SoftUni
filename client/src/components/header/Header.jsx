@@ -31,11 +31,6 @@ export default function Header() {
                                 Planets
                             </Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/contact" className="nav-link">
-                                Contact
-                            </Link>
-                        </li>
                         {isAuthenticated ? (
                             <>
                                 <li className="nav-item">
@@ -61,6 +56,11 @@ export default function Header() {
                             </Link>
                         </li>
                         )}
+                                                <li className="nav-item">
+                            <Link to="/contact" className="nav-link">
+                                Contact
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
             </div>

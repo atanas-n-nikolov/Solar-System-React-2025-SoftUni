@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+.planet-details {
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    padding: 3em;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.planet-main {
+    display: flex;
+    gap: 2em;
+    align-items: center;
+    background: #000;
+    justify-content: center;
+    border-radius: 0.3em;
+    color: #fff;
+}
+
+.planet-picture {
+    max-width: 800px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 0.2em;
+}
+
+.aside h1 {
+    font-size: 4em;
+    font-family: "Anton", sans-serif;
+    letter-spacing: 0.05em;
+    font-weight: 400;
+}
+
+.aside p {
+    font-size: 1.3em;
+}
+
+.planet-info {
+    margin-top: 1.5em;
+    font-size: 1.2em;
+}
+
+h3 {
+    margin-top: 1.5em;
+}

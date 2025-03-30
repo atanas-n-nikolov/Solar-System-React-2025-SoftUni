@@ -1,20 +1,20 @@
 .wrapper-q {
     background-color: #fff;
-    padding: 5em 2em;
+    padding: 5em 0;
 }
 
 .home-container {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     justify-content: space-between;
-    padding: 2em 1.5em;
+    padding: 2em 0;
     max-width: 1400px;
     margin: 0 auto;
     gap: 4em;
   }
 
   .home-left {
-    max-width: 800px;
+    flex: 1;
   }
   
   .home-right {
@@ -31,6 +31,7 @@
   }
   
   .home-start-button {
+    display: inline-block;
     text-decoration: none;
     background-color: #1E90FF;
     color: white;

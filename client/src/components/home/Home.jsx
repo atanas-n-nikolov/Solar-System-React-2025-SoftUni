@@ -14,8 +14,8 @@ export default function Home() {
     return (
         <>
             <HeroSection />
-            <section className="planets-wrapper">
-                <div className="planets-header">
+            <section className="slider-wrapper">
+                <div className="planets-title">
                     <h2>Journey Through the Solar System</h2>
                 </div>
                 <PlanetCard />

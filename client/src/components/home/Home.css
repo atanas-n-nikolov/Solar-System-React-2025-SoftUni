@@ -1,17 +1,14 @@
-.planets-wrapper {
+.slider-wrapper {
     background-color: #eee;
 }
 
-.planets-header h2 {
-    background-color: #111;
-    padding: 0.5em 0;
-}
-
-.planets-header h2 {
+.planets-title h2 {
     text-align: center;
     font-size: 2em;
     font-weight: bold;
     color: #fff;
+    background-color: #111;
+    padding: 0.5em 0;
 }
 
 .next-arrow {
