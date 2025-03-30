@@ -1,11 +1,34 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import './Register.css'
+import { useRegister } from "../../api/authAPI";
+import { useUserContext } from "../../contexts/UserContext";
 
 export default function Register() {
+    const { register } = useRegister();
+    const navigate = useNavigate();
+    const { userLoginHandler } = useUserContext();
+
+    const registerHandler = async (formData) => {
+        const { firstName, lastName, email, password } = Object.fromEntries(formData);
+
+        const confirmPassword = formData.get('re-password');
+
+        if(password !== confirmPassword) {
+            console.log('Password dont match!');
+            
+            return;
+        };
+
+        const authData = await register(firstName, lastName, email, password);
+
+        userLoginHandler(authData);
+
+        navigate('/');
+    }
     return (
         <div className="container">
             <section className="register-container">
-                <form className="register-form">
+                <form className="register-form" action={registerHandler}>
                     <h2>Register</h2>
 
                     <div className="form-full-name">

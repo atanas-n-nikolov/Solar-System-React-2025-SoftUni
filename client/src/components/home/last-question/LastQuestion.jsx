@@ -26,7 +26,7 @@ export default function LastQuestion() {
                             <h3>{quiz.title}</h3>
                             <p>Mission Level: {quiz.category}</p>
                         </div>
-                            <Link to={`/quiz/${quiz._id}`} className="home-start-button">Start Mission</Link>
+                            <Link to={`/quiz/${quiz.category}`} className="home-start-button">Start Mission</Link>
                             </>
                     ) : (
                         <p>No quizzes available yet.</p>
