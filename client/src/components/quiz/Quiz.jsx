@@ -13,8 +13,6 @@ export default function Quiz() {
         return acc;
     }, {});
 
-    console.log(categories);
-
     return (
         <div className="quiz-container">
             <h1 className="quiz-title">Quiz Quest</h1>

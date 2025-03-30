@@ -1,14 +1,15 @@
 import { UserContext } from "../contexts/UserContext";
-import usePersistedState from '../hooks/usePersistedState';
+import useLocalStorageState from "../hooks/useLocalStorageState";
 
 
 export default function UserProvider({
     children,
 }) {
-    const [authData, setAuthData] = usePersistedState('auth', {});
+    const [authData, setAuthData] = useLocalStorageState('auth', {});
     
     const userLoginHandler = (resultData) => {
-        setAuthData(resultData);
+        const { password, ...userData} = resultData;
+        setAuthData(userData);
     };
 
     const userLogoutHandler = () => {

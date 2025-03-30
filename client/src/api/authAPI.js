@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import request from "../util/request";
 import { UserContext } from "../contexts/UserContext";
 
@@ -22,24 +22,36 @@ export const useLogin = () => {
 
 export const useLogout = () => {
     const { accessToken, userLogoutHandler } = useContext(UserContext);
+    const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     useEffect(() => {
         if (!accessToken) {
             return;
         }
 
-        const options = {
-            headers: {
-                'X-Authorization': accessToken,
+        const logoutUser = async () => {
+            setIsLoggingOut(true);
+
+            const options = {
+                headers: {
+                    'X-Authorization': accessToken,
+                }
+            };
+
+            try {
+                await request.get(`${baseUrl}/logout`, options);
+                userLogoutHandler();
+            } catch (error) {
+                console.error("Logout failed", error);
+            } finally {
+                setIsLoggingOut(false);
             }
         };
 
-        request.get(`${baseUrl}/logout`, null, options)
-            .then(userLogoutHandler);
-
+        logoutUser();
     }, [accessToken, userLogoutHandler]);
 
     return {
-        isLoggedOut: !!accessToken,
+        isLoggingOut,
     };
 };
