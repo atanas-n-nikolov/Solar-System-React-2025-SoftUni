@@ -1,8 +1,9 @@
-import { Link, useNavigate, useParams } from "react-router"
+import { Link, useNavigate, useParams } from "react-router";
 import { useQuizCategory, useSubmitQuiz } from "../../../api/quizAPI";
 
 import './QuizForm.css';
 import { useEffect, useState } from "react";
+import { useUpdateUserScore } from "../../../hooks/useUpdateUser";
 
 export default function QuizForm() {
     const { category } = useParams();
@@ -11,6 +12,8 @@ export default function QuizForm() {
     const { submitQuiz, result, loading, error } = useSubmitQuiz(quiz, userAnswers);
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
+    
+    const { updateScore } = useUpdateUserScore();
 
     const handleAnswerChange = (questionId, selectedOption) => {
         setUserAnswers((prevAnswers) => ({
@@ -30,20 +33,21 @@ export default function QuizForm() {
 
     useEffect(() => {
         if (result !== null) {
-            const timer = setInterval(() => {
-                setSeconds((prev) => {
-                    if (prev === 1) {
-                        clearInterval(timer);
-                        navigate("/quiz");
-                    }
-                    return prev - 1;
-                });
-            }, 1000);
+            updateScore(result);
 
-            return () => clearInterval(timer);
+            // const timer = setInterval(() => {
+            //     setSeconds((prev) => {
+            //         if (prev === 1) {
+            //             clearInterval(timer);
+            //             navigate("/quiz");
+            //         }
+            //         return prev - 1;
+            //     });
+            // }, 1000);
+
+            // return () => clearInterval(timer);
         }
-    }, [result, navigate]);
-
+    }, [result, navigate, updateScore]);
 
     return (
         <div className="quiz-wrapper">

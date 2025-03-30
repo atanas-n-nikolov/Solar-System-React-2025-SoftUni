@@ -5,7 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 const baseUrl = 'http://localhost:3030/users';
 
 export const useRegister = () => {
-    const register = (firstName, lastName, email, password) => request.post(`${baseUrl}/register`, { firstName, lastName, email, password });
+    const register = (firstName, lastName, email, password) => request.post(`${baseUrl}/register`, { firstName, lastName, email, password, score: 0 });
 
     return {
         register,
