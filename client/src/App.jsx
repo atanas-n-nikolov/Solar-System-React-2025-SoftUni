@@ -11,6 +11,7 @@ import Quiz from './components/quiz/Quiz'
 import './App.css'
 import UserProvider from './providers/UserProvider'
 import Logout from './components/logout/Logout'
+import PlanetDetails from './components/planetsDetails/PlanetDetails'
 
 export default function App() {
 
@@ -23,6 +24,7 @@ export default function App() {
                         <Route path="/" element={<Home />}>
                         </Route>
                         <Route path="/planets" element={<Planets />} />
+                        <Route path="/planet/:planetId" element={<PlanetDetails />} />
                         <Route path="/sign-up" element={<Register />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/logout" element={<Logout />} />

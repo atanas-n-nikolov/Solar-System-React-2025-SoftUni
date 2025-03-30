@@ -13,3 +13,14 @@ export const usePlanets = () => {
 
     return { planets };
 };
+
+export const usePlanet = (planetId) => {
+    const [planet, setPlanet] = useState({});
+
+    useEffect(() => {
+        request.get(`${baseUrl}/${planetId}`)
+            .then(setPlanet)
+    }, [planetId]);
+
+    return { planet };
+};
