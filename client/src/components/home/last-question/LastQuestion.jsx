@@ -5,8 +5,6 @@ import { useLatestQuiz } from '../../../api/quizAPI';
 export default function LastQuestion() {
     const { latestQuiz } = useLatestQuiz();
 
-    const quiz = Array.isArray(latestQuiz) ? latestQuiz[0] : null;
-
     return (
         <div className="wrapper-q">
             <div className="home-container">
@@ -20,13 +18,13 @@ export default function LastQuestion() {
 
                 <div className="home-right">
                     <h2>Last Added Quiz</h2>
-                    {quiz ? (
+                    {latestQuiz ? (
                         <>
                         <div className="last-quiz-card">
-                            <h3>{quiz.title}</h3>
-                            <p>Mission Level: {quiz.category}</p>
+                            <h3>{latestQuiz.title}</h3>
+                            <p>Mission Level: {latestQuiz.category}</p>
                         </div>
-                            <Link to={`/quiz/${quiz.category}`} className="home-start-button">Start Mission</Link>
+                            <Link to={`/quiz/${latestQuiz.category}`} className="home-start-button">Start Mission</Link>
                             </>
                     ) : (
                         <p>No quizzes available yet.</p>

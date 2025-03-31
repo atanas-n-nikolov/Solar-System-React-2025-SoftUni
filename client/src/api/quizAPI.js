@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import request from "../util/request";
 
-const baseUrl = 'http://localhost:3030/data/quiz';
+const baseUrl = 'http://localhost:3000/quiz';
 
 export const useQuiz = () => {
     const [quiz, setQuiz] = useState([]);
@@ -18,13 +18,7 @@ export const useLatestQuiz = () => {
     const [latestQuiz, setLatestQuiz] = useState([]);
 
     useEffect(() => {
-        const searchParams = new URLSearchParams({
-            sortBy: '_createdOn desc',
-            pageSize: 1,
-            select: '_id,title,category',
-        });
-
-        request.get(`${baseUrl}?${searchParams.toString()}`)
+        request.get(`${baseUrl}/latest-quiz`)
             .then(setLatestQuiz)
     }, []);
 
@@ -35,7 +29,7 @@ export const useQuizCategory = (category) => {
     const [quiz, setQuiz] = useState([]);
 
     useEffect(() => {
-        request.get(`${baseUrl}?where=category%3D%22${category}%22`).then(setQuiz)
+        request.get(`${baseUrl}/${category}`).then(setQuiz)
 
     }, [category]);
 

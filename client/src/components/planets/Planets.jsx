@@ -14,7 +14,7 @@ export default function Planets() {
             </div>
             <div className="wrapper-p">
                 {planets.length > 0 ? (
-                    planets.map(planet => {
+                    planets.map(planet => { 
                         return (
                             <div key={planet._id} className="planet-container">
                                 <img

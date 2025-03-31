@@ -5,7 +5,7 @@ export default function Facts() {
     const [ fact, setFact ] = useState([]);
     
     useEffect(() => {
-        fetch('http://localhost:3030/data/facts').then(res => res.json()).then(setFact)
+        fetch('http://localhost:3000/fact').then(res => res.json()).then(setFact)
     }, []);
 
     return (
