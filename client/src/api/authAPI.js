@@ -2,10 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import request from "../util/request";
 import { UserContext } from "../contexts/UserContext";
 
-const baseUrl = 'http://localhost:3030/users';
+const baseUrl = 'http://localhost:3000';
 
 export const useRegister = () => {
-    const register = (firstName, lastName, email, password) => request.post(`${baseUrl}/register`, { firstName, lastName, email, password, score: 0 });
+    const register = (firstName, lastName, email, password, rePassword) => request.post(`${baseUrl}/register`, { firstName, lastName, email, password, rePassword });
 
     return {
         register,
@@ -39,8 +39,9 @@ export const useLogout = () => {
             };
 
             try {
-                await request.get(`${baseUrl}/logout`, options);
                 userLogoutHandler();
+
+                console.log("Logout successful");
             } catch (error) {
                 console.error("Logout failed", error);
             } finally {

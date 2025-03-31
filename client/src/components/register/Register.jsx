@@ -9,17 +9,15 @@ export default function Register() {
     const { userLoginHandler } = useUserContext();
 
     const registerHandler = async (formData) => {
-        const { firstName, lastName, email, password } = Object.fromEntries(formData);
+        const { firstName, lastName, email, password, rePassword } = Object.fromEntries(formData);
 
-        const confirmPassword = formData.get('re-password');
-
-        if(password !== confirmPassword) {
+        if(password !== rePassword) {
             console.log('Password dont match!');
             
             return;
         };
 
-        const authData = await register(firstName, lastName, email, password);
+        const authData = await register(firstName, lastName, email, password, rePassword);
 
         userLoginHandler(authData);
 
@@ -50,8 +48,8 @@ export default function Register() {
                     <input type="password" id="password" name="password" required />
                     </div>
                     <div className="form-group">
-                    <label htmlFor="re-password">Repeat password:</label>
-                    <input type="password" id="re-password" name="re-password" required />
+                    <label htmlFor="rePassword">Repeat password:</label>
+                    <input type="password" id="rePassword" name="rePassword" required />
                     </div>
 
                     <button type="submit">Register</button>

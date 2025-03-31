@@ -4,7 +4,7 @@ import './Header.css';
 import useAuth from '../../hooks/useAuth';
 
 export default function Header() {
-    const { email, isAuthenticated } = useAuth();
+    const { email, isAuthenticated, _id } = useAuth();
 
     return (
         <header className="header">
@@ -39,7 +39,7 @@ export default function Header() {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link to="/profile" className="nav-link">
+                                    <Link to={`/profile/${_id}`} className="nav-link">
                                         {email}
                                     </Link>
                                 </li>
