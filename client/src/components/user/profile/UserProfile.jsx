@@ -1,10 +1,20 @@
-import { useContext } from "react";
-import useAuth from "../../../hooks/useAuth"
-import { UserContext } from "../../../contexts/UserContext";
+import { useParams } from 'react-router';
+import { useUser } from "../../../hooks/useUser";
 
-export default function UserProfile() {
-    const user = useContext(UserContext);
+const UserProfile = () => {
+    const { userId } = useParams();
+    const { userData, loading, error } = useUser(userId);
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
+
     return (
-        <h1>{user.firstName}</h1>
-    )
-}
+        <div>
+            <h1>{userData.firstName} {userData.lastName}</h1>
+            <p>Email: {userData.email}</p>
+        </div>
+    );
+};
+
+
+export default UserProfile;

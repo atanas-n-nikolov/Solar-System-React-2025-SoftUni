@@ -1,45 +1,42 @@
-const request = async (method, url, data = null, options = {}) => {
-    const headers = {
-        'Content-Type': 'application/json',
-        ...options.headers,
+import { getAccessToken } from "./authUtil";
+
+async function request(method, url, data = null) {
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        }
     };
 
+    const { accessToken } = getAccessToken();
 
-    const body = data ? JSON.stringify(data) : null;
+    if (accessToken) {
+        options.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    if (data && method !== 'GET') {
+        options.body = JSON.stringify(data);
+    }
 
     try {
-        const response = await fetch(url, {
-            method,
-            headers,
-            body,
-            ...options,
-        });
+        const response = await fetch(url, options);
 
-        if (!response || !response.headers) {
-            console.error('Invalid response received', response);
-            return null;
+        if (!response.ok) {
+            const { message } = await response.json();
+            throw new Error(message);
         }
 
-        if (!response.ok) {  
-            throw new Error(`Request failed with status: ${response.status}`);
-        }
-
-        const responseContentType = response.headers.get('Content-Type');
-        if (responseContentType && responseContentType.includes('application/json')) {
-            return await response.json();
-        }
-
-        return null;
+        const result = await response.json();
+        return result;
     } catch (error) {
-        console.error('Request failed:', error);
-        return null;
+        throw new Error(`Request failed: ${error.message}`);
     }
 };
 
 export default {
-    get: (url, options) => request('GET', url, null, options),
-    post: (url, data, options) => request('POST', url, data, options),
-    put: (url, data, options) => request('PUT', url, data, options),
-    delete: (url, options) => request('DELETE', url, null, options),
-    baseRequest: request,
+    get: request.bind(null, "GET"),
+    post: request.bind(null, "POST"),
+    put: request.bind(null, "PUT"),
+    patch: request.bind(null, "PATCH"),
+    delete: request.bind(null, "DELETE"),
 };

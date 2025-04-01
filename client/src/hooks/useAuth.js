@@ -5,22 +5,24 @@ import request from "../util/request";
 export default function useAuth() {
     const authData = useContext(UserContext);
 
+    const accessToken = authData?.accessToken || localStorage.getItem('accessToken');
+    
     const requestWrapper = (method, url, data, options = {}) => {
         const authOptions = {
             ...options,
             headers: {
-                'X-Authorization': authData.accessToken,
+                'Authorization': accessToken ? `Bearer ${accessToken}` : '',
                 ...options.headers
             }
         };
-
-        return request.baseRequest(method, url, data, authData.accessToken ? authOptions : options);
+    
+        return request[method.toLowerCase()](url, data, authOptions); 
     };
 
     return {
         ...authData,
-        userId: authData._id,
-        isAuthenticated: !!authData.accessToken,
+        userId: authData?._id || localStorage.getItem('userId'),
+        isAuthenticated: !!accessToken,
         request: {
             get: requestWrapper.bind(null, 'GET'),
             post: requestWrapper.bind(null, 'POST'),

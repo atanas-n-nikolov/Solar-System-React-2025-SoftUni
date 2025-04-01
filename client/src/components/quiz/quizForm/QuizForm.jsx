@@ -3,7 +3,6 @@ import { useQuizCategory, useSubmitQuiz } from "../../../api/quizAPI";
 
 import './QuizForm.css';
 import { useEffect, useState } from "react";
-import { useUpdateUserScore } from "../../../hooks/useUpdateUser";
 
 export default function QuizForm() {
     const { category } = useParams();
@@ -13,7 +12,6 @@ export default function QuizForm() {
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
     
-    const { updateScore } = useUpdateUserScore();
 
     const handleAnswerChange = (questionId, selectedOption) => {
         setUserAnswers((prevAnswers) => ({
