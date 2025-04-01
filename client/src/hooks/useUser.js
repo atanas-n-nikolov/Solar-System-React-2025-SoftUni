@@ -7,17 +7,13 @@ export function useUser(userId) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        console.log("useEffect triggered, userId:", userId);
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                console.log('Fetching user data for userId:', userId);
                 const response = await getUserData(userId);
-                console.log('Response:', response);
                 setUserData(response);
             } catch (err) {
                 setError('Failed to fetch user data');
-                console.error('Error fetching user data:', err);
             } finally {
                 setLoading(false);
             }

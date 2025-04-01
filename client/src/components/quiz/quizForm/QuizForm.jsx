@@ -1,8 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { useQuizCategory, useSubmitQuiz } from "../../../api/quizAPI";
-
+import { updateUserData } from "../../../api/userAPI";
 import './QuizForm.css';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
+import { UserContext } from "../../../contexts/UserContext";
 
 export default function QuizForm() {
     const { category } = useParams();
@@ -11,7 +12,9 @@ export default function QuizForm() {
     const { submitQuiz, result, loading, error } = useSubmitQuiz(quiz, userAnswers);
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
-    
+    const { _id } = useContext(UserContext);
+
+    const hasNavigated = useRef(false);
 
     const handleAnswerChange = (questionId, selectedOption) => {
         setUserAnswers((prevAnswers) => ({
@@ -30,22 +33,37 @@ export default function QuizForm() {
     }, [quiz]);
 
     useEffect(() => {
-        if (result !== null) {
-            updateScore(result);
+        if (result !== null && result !== undefined) {
+            console.log("Updating user score...");
 
-            // const timer = setInterval(() => {
-            //     setSeconds((prev) => {
-            //         if (prev === 1) {
-            //             clearInterval(timer);
-            //             navigate("/quiz");
-            //         }
-            //         return prev - 1;
-            //     });
-            // }, 1000);
+            if (_id) {
+                updateUserData(_id, { score: result })
+                    .then((response) => {
+                        console.log("User score updated:", response);
+                    })
+                    .catch((err) => {
+                        console.error("Error updating user score:", err);
+                    });
+            }
 
-            // return () => clearInterval(timer);
+            const timer = setInterval(() => {
+                setSeconds((prev) => {
+                    if (prev === 1) {
+                        clearInterval(timer);
+                        if (!hasNavigated.current) {
+                            hasNavigated.current = true;
+                            setTimeout(() => {
+                                navigate('/');
+                            }, 0); 
+                        }
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+
+            return () => clearInterval(timer);
         }
-    }, [result, navigate, updateScore]);
+    }, [result, navigate, _id]);
 
     return (
         <div className="quiz-wrapper">

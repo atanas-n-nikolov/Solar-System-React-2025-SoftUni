@@ -41,7 +41,6 @@ export const useLogout = () => {
             try {
                 userLogoutHandler();
 
-                console.log("Logout successful");
             } catch (error) {
                 console.error("Logout failed", error);
             } finally {

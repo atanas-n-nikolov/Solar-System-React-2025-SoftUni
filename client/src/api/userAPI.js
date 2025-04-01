@@ -6,6 +6,28 @@ export const getUserData = (userId) => {
     return request.get(`${baseUrl}/${userId}`);
 };
 
-export const updateUserData = (updatedData) => {
-    return request.put(baseUrl, updatedData);
+export const updateUserData = (userId, updatedData) => {
+    console.log("Updating user data for userId:", userId, "with data:", updatedData);
+    if(updatedData.score) {
+        return request.put(`${baseUrl}/${userId}/score`, updatedData)
+        .then(response => {
+            console.log("Response from updateUserData:", response);
+            return response;
+        })
+        .catch(err => {
+            console.error("Error in updateUserData:", err);
+            throw err;
+        });
+    } else {
+        return request.put(`${baseUrl}/${userId}/edit`, updatedData)
+        .then(response => {
+            console.log("Response from updateUserData:", response);
+            return response;
+        })
+        .catch(err => {
+            console.error("Error in updateUserData:", err);
+            throw err;
+        });
+    }
+
 };
