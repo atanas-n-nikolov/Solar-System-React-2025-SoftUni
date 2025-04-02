@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router";
 import { getUserData } from "../../../api/userAPI";
+import { deleteUser } from "../../../api/userAPI";
+import { UserContext } from "../../../contexts/UserContext";
 
-export default function UserProfile () {
+export default function UserProfile() {
     const { userId } = useParams();
+    const navigate = useNavigate();
+    const { userLogoutHandler } = useContext(UserContext);
     const [userData, setUserData] = useState(null);
     const [comments, setComments] = useState([]);
     const [answers, setAnswers] = useState([]);
@@ -38,6 +42,18 @@ export default function UserProfile () {
         }
     }, [userId]);
 
+    const handleDeleteUser = async () => {
+        try {
+            const success = await deleteUser(userId, userLogoutHandler);
+            if (success) {
+                navigate('/');
+            }
+        } catch (err) {
+            setError("Error deleting user.");
+            console.error("Error deleting user:", err);
+        }
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div className="error-message">Error: {error}</div>;
 
@@ -49,14 +65,18 @@ export default function UserProfile () {
 
             <Link to={`/profile/${userId}/edit`} className="edit-profile-link">Edit Profile</Link>
 
+            <button onClick={handleDeleteUser} className="delete-user-button">
+                Delete My Account
+            </button>
+
             <div className="comments-section">
                 <h2>Comments</h2>
                 {comments.length === 0 ? (
                     <p>No comments available.</p>
                 ) : (
                     <ul>
-                        {comments.map((comment, index) => (
-                            <li key={index}>
+                        {comments.map((comment) => (
+                            <li key={comment._id}>
                                 <p><strong>Planet:</strong> {comment.planetName}</p>
                                 <p><strong>Comment:</strong> {comment.commentText}</p>
                                 <p><small>Posted on: {new Date(comment.createdAt).toLocaleString()}</small></p>

@@ -92,3 +92,20 @@ export const useQuizWithUserAnswers = (userId, category) => {
 
     return { quiz, allAnswered, noQuizInCategory, error };
 };
+
+export const deleteUser = async (userId, userLogoutHandler) => {
+    try {
+        const response = await request.delete(`${baseUrl}/${userId}`);
+        const data = await response;
+
+        if (data.message === 'User deleted successfully') {
+            userLogoutHandler();
+            return true;
+        } else {
+            throw new Error('Failed to delete user');
+        }
+    } catch (err) {
+        console.error('Error deleting user:', err);
+        throw err;
+    }
+};
