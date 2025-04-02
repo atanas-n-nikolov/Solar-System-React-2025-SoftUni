@@ -1,31 +1,37 @@
-import { Link, useParams } from 'react-router';
-import { useUser } from "../../../hooks/useUser";
-import { useState, useEffect } from 'react';
-import { getUserComments } from "../../../api/userAPI";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router";
+import { getUserData } from "../../../api/userAPI";
 
-const UserProfile = () => {
+export default function UserProfile () {
     const { userId } = useParams();
-    const { userData, loading, error } = useUser(userId);
+    const [userData, setUserData] = useState(null);
     const [comments, setComments] = useState([]);
-    const [commentsError, setCommentsError] = useState(null);
+    const [answers, setAnswers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchUserComments = async () => {
+        const fetchUserProfile = async () => {
             try {
-                const response = await getUserComments(userId);
-                if (response && Array.isArray(response.data)) {
-                    setComments(response.data);
+                const response = await getUserData(userId);
+
+                if (response && response.user) {
+                    setUserData(response.user);
+                    setComments(response.comments);
+                    setAnswers(response.user.answers);
                 } else {
-                    setComments([]);
+                    setError("User profile or comments not found");
                 }
             } catch (err) {
-                setCommentsError("Error fetching comments");
-                console.error("Error fetching comments:", err);
+                setError("Error fetching user profile and comments");
+                console.error("Error fetching user profile:", err);
+            } finally {
+                setLoading(false);
             }
         };
 
         if (userId) {
-            fetchUserComments();
+            fetchUserProfile();
         }
     }, [userId]);
 
@@ -34,15 +40,14 @@ const UserProfile = () => {
 
     return (
         <div>
-            <h1>{userData.firstName} {userData.lastName}</h1>
-            <p>Email: {userData.email}</p>
-            <p>Score: {userData.score}</p>
+            <h1>{userData?.firstName} {userData?.lastName}</h1>
+            <p>Email: {userData?.email}</p>
+            <p>Score: {userData?.score}</p>
 
             <Link to={`/profile/${userId}/edit`}>Edit Profile</Link>
 
             <div>
                 <h2>Comments</h2>
-                {commentsError && <p style={{ color: 'red' }}>{commentsError}</p>}
                 {comments.length === 0 ? (
                     <p>No comments available.</p>
                 ) : (
@@ -57,8 +62,23 @@ const UserProfile = () => {
                     </ul>
                 )}
             </div>
+
+            <div>
+                <h2>Answered Questions</h2>
+                {answers.length === 0 ? (
+                    <p>No questions answered yet.</p>
+                ) : (
+                    <ul>
+                        {answers.map((answer, index) => (
+                            <li key={index}>
+                                <p><strong>Question category:</strong> {answer.category}</p>
+                                <p><strong>Question title:</strong> {answer.title}</p>
+                                <p><small>Answered on: {new Date(answer.answeredOn).toLocaleString()}</small></p>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
         </div>
     );
 };
-
-export default UserProfile;

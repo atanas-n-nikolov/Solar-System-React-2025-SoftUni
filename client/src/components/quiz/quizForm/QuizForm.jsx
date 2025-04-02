@@ -8,36 +8,26 @@ import { UserContext } from "../../../contexts/UserContext";
 export default function QuizForm() {
     const { category } = useParams();
     const { quiz } = useQuizCategory(category);
-    const [userAnswers, setUserAnswers] = useState({});
-    const { submitQuiz, result, loading, error } = useSubmitQuiz(quiz, userAnswers);
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
     const { _id } = useContext(UserContext);
 
     const hasNavigated = useRef(false);
-
-    const handleAnswerChange = (questionId, selectedOption) => {
-        setUserAnswers((prevAnswers) => ({
-            ...prevAnswers,
-            [questionId]: selectedOption,
-        }));
-    };
+    
+    const userAnswers = useRef({});
 
     const handleSubmit = (event) => {
         event.preventDefault();
         submitQuiz();
     };
 
-    useEffect(() => {
-        setUserAnswers({});
-    }, [quiz]);
+    const { submitQuiz, result, loading, error } = useSubmitQuiz(quiz, userAnswers.current);
 
     useEffect(() => {
         if (result !== null && result !== undefined) {
-            console.log("Updating user score...");
-
+            
             if (_id) {
-                updateUserData(_id, { score: result })
+                updateUserData(_id, { score: result.score, answers: result.correctAnswers })
                     .then((response) => {
                         console.log("User score updated:", response);
                     })
@@ -72,11 +62,19 @@ export default function QuizForm() {
             {result !== null && result !== undefined && (
                 <div className="result">
                     <h2>Your score is:</h2>
-                    <h2>{result}/{quiz.length}</h2>
+                    <h2>{result.score}/{quiz.length}</h2>
                     <p>
                         You will be redirected to Quiz after <span className="timer">{seconds}</span> seconds
                         or <Link to="/quiz" className="redirect-link">click here</Link> to go now.
                     </p>
+                    <div>
+                        <h3>Correct Answers:</h3>
+                        <ul>
+                            {result.correctAnswers.map((answer) => (
+                                <li key={answer.questionId}>Question ID: {answer.questionId}, Correct Answer: {answer.correctAnswer}</li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             )}
 
@@ -94,8 +92,9 @@ export default function QuizForm() {
                                                 id={`${question._id}-${option}`}
                                                 name={question._id}
                                                 value={option}
-                                                checked={userAnswers[question._id] === option}
-                                                onChange={() => handleAnswerChange(question._id, option)}
+                                                onChange={() => {
+                                                    userAnswers.current[question._id] = option;
+                                                }}
                                             />
                                             <label htmlFor={`${question._id}-${option}`}>{option}</label>
                                         </div>
@@ -103,14 +102,13 @@ export default function QuizForm() {
                                 </div>
                             </div>
                         ))}
-                        <Link
-                            to="#"
+                        <button
+                            type="submit"
                             className="quiz-button"
-                            onClick={handleSubmit}
                             disabled={loading}
                         >
                             Submit
-                        </Link>
+                        </button>
                     </form>
                 </div>
             )}

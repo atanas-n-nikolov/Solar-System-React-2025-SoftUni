@@ -1,10 +1,24 @@
 import { useParams } from 'react-router';
 import { usePlanet } from '../../api/planetsAPI';
+import { useState, useEffect, useCallback } from 'react';
 import './PlanetDetails.css';
+import { addCommentToPlanet, deleteCommentFromPlanet } from '../../api/planetsAPI';
+import useAuth from '../../hooks/useAuth';
 
 export default function PlanetDetails() {
+    const { isAuthenticated, userId } = useAuth();
     const { planetId } = useParams();
-    const { planet, error, loading } = usePlanet(planetId);
+    const { planet, setPlanet, error, loading } = usePlanet(planetId);
+
+    const [newComment, setNewComment] = useState('');
+    const [commenting, setCommenting] = useState(false);
+    const [commentError, setCommentError] = useState(null);
+
+    useEffect(() => {
+        if (planet) {
+            setNewComment('');
+        }
+    }, [planet]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -13,6 +27,35 @@ export default function PlanetDetails() {
     if (error) {
         return <div>Error: {error}</div>;
     }
+
+    const handleCommentSubmit = useCallback(async (e) => {
+        e.preventDefault();
+        setCommenting(true);
+
+        try {
+            const response = await addCommentToPlanet(planetId, newComment);
+            if (response) {
+                setPlanet(response);
+                setNewComment('');
+            }
+        } catch (err) {
+            setCommentError('Failed to add comment.');
+            console.error('Error adding comment:', err);
+        } finally {
+            setCommenting(false);
+        }
+    }, [newComment, planetId]);
+
+    const handleCommentDelete = async (commentId) => {
+        try {
+            const response = await deleteCommentFromPlanet(planetId, commentId);
+            if (response) {
+                setPlanet(response);
+            }
+        } catch (err) {
+            console.error('Error deleting comment:', err);
+        }
+    };
 
     return (
         <div className="planet-details">
@@ -33,19 +76,42 @@ export default function PlanetDetails() {
                 <p>{planet.info}</p>
             </div>
 
-            <div className="planet-comments">
-                <h3>Comments</h3>
-                {planet.comments?.length > 0 ? (
-                    planet.comments.map((comment, index) => (
-                        <div key={index} className="comment">
-                            <p><strong>{comment.user.firstName} {comment.user.lastName}</strong>: {comment.text}</p>
-                            <p><em>{new Date(comment.createdAt).toLocaleString()}</em></p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No comments yet.</p>
-                )}
-            </div>
+            {isAuthenticated && (
+                <div className="planet-comments">
+                    <h3>Comments</h3>
+                    {planet.comments?.length > 0 ? (
+                        planet.comments.map((comment, index) => (
+                            <div key={index} className="comment">
+                                <p>
+                                    <strong>
+                                        {comment.user ? `${comment.user.firstName} ${comment.user.lastName}` : 'Anonymous'}
+                                    </strong>: {comment.text}
+                                </p>
+                                <p><em>{new Date(comment.createdAt).toLocaleString()}</em></p>
+                                {comment.user && comment.user._id === userId && (
+                                    <button onClick={() => handleCommentDelete(comment._id)}>Delete</button>
+                                )}
+                            </div>
+                        ))
+                    ) : (
+                        <p>No comments yet.</p>
+                    )}
+
+
+                    <form onSubmit={handleCommentSubmit}>
+                        <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            placeholder="Add a comment..."
+                            rows="4"
+                            required
+                        />
+                        <button type="submit" disabled={commenting}>Submit</button>
+                    </form>
+
+                    {commentError && <p style={{ color: 'red' }}>{commentError}</p>}
+                </div>
+            )}
         </div>
     );
 }

@@ -28,15 +28,3 @@ export const updateUserData = (userId, updatedData) => {
     }
 
 };
-
-export const getUserComments = (userId) => {
-
-    return request.get(`${baseUrl}/${userId}/comments`)
-        .then(response => {
-            return response;
-        })
-        .catch(err => {
-            console.error("Error fetching user comments:", err);
-            throw err;
-        });
-};

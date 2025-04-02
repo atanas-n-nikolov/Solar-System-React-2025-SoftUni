@@ -43,19 +43,28 @@ export const useSubmitQuiz = (quizData, userAnswers) => {
 
     const calculateScore = () => {
         let score = 0;
+        const correctAnswers = [];
+
         quizData.forEach((question) => {
             if (userAnswers[question._id] === question.correctAnswer) {
                 score += 1;
+                correctAnswers.push({
+                    questionId: question._id,
+                    category: question.category,
+                    title: question.title,
+                    correctAnswer: question.correctAnswer
+                });
             }
         });
-        return score;
+
+        return { score, correctAnswers };
     };
 
     const submitQuiz = () => {
         setLoading(true);
         try {
-            const score = calculateScore();
-            setResult(old => score);
+            const { score, correctAnswers } = calculateScore();
+            setResult({ score, correctAnswers });
         } catch (err) {
             setError(err.message || "Something went wrong!");
         } finally {
