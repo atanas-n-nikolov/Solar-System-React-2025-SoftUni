@@ -48,14 +48,21 @@ export default function PlanetDetails() {
 
     const handleCommentDelete = async (commentId) => {
         try {
-            const response = await deleteCommentFromPlanet(planetId, commentId);
-            if (response) {
-                setPlanet(response);
+            const success = await deleteCommentFromPlanet(planetId, commentId);
+            
+            if (success) {
+                setPlanet(prevPlanet => {
+                    const updatedComments = prevPlanet.comments.filter(comment => comment._id !== commentId);
+                    return { ...prevPlanet, comments: updatedComments };
+                });
             }
         } catch (err) {
             console.error('Error deleting comment:', err);
+            setCommentError('Неуспешно изтриване на коментар.');
         }
     };
+    
+
 
     return (
         <div className="planet-details">
