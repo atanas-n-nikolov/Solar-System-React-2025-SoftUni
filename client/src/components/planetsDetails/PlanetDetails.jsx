@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import './PlanetDetails.css';
 import { addCommentToPlanet, deleteCommentFromPlanet } from '../../api/planetsAPI';
 import useAuth from '../../hooks/useAuth';
+import ErrorNotification from '../errorNotification/ErrorNotification';
 
 export default function PlanetDetails() {
     const { isAuthenticated, userId } = useAuth();
@@ -14,23 +15,10 @@ export default function PlanetDetails() {
     const [commenting, setCommenting] = useState(false);
     const [commentError, setCommentError] = useState(null);
 
-    useEffect(() => {
-        if (planet) {
-            setNewComment('');
-        }
-    }, [planet]);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
-
     const handleCommentSubmit = useCallback(async (e) => {
         e.preventDefault();
         setCommenting(true);
+        setCommentError(null);
 
         try {
             const response = await addCommentToPlanet(planetId, newComment);
@@ -58,11 +46,23 @@ export default function PlanetDetails() {
             }
         } catch (err) {
             console.error('Error deleting comment:', err);
-            setCommentError('Неуспешно изтриване на коментар.');
+            setCommentError('Failed to delete comment.');
         }
     };
-    
 
+    useEffect(() => {
+        if (planet) {
+            setNewComment('');
+        }
+    }, [planet]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <ErrorNotification message="Error loading planet details." type="error" />;
+    }
 
     return (
         <div className="planet-details">
@@ -104,7 +104,6 @@ export default function PlanetDetails() {
                         <p>No comments yet.</p>
                     )}
 
-
                     <form onSubmit={handleCommentSubmit}>
                         <textarea
                             value={newComment}
@@ -116,7 +115,7 @@ export default function PlanetDetails() {
                         <button type="submit" disabled={commenting}>Submit</button>
                     </form>
 
-                    {commentError && <p style={{ color: 'red' }}>{commentError}</p>}
+                    {commentError && <ErrorNotification message={commentError} type="error" />}
                 </div>
             )}
         </div>

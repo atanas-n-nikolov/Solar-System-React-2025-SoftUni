@@ -22,14 +22,21 @@ async function request(method, url, data = null) {
         const response = await fetch(url, options);
 
         if (!response.ok) {
-            const { message } = await response.json();
-            throw new Error(message);
+            const { message, error } = await response.json();
+            const errorMessage = error || message || "Request failed";
+
+            if (response.status !== 400 && response.status !== 404) {
+                console.error('Unexpected error:', errorMessage);
+            }
+
+            throw new Error(errorMessage);
         }
 
         const result = await response.json();
         return result;
     } catch (error) {
-        throw new Error(`Request failed: ${error.message}`);
+        console.error(error.message);
+        throw new Error(error.message || 'Request failed');
     }
 };
 

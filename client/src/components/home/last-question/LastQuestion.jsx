@@ -1,9 +1,10 @@
 import { Link } from 'react-router';
-import './LastQuestion.css'
+import './LastQuestion.css';
 import { useLatestQuiz } from '../../../api/quizAPI';
+import ErrorNotification from '../../errorNotification/ErrorNotification';
 
 export default function LastQuestion() {
-    const { latestQuiz } = useLatestQuiz();
+    const { latestQuiz, error } = useLatestQuiz();
 
     return (
         <div className="wrapper-q">
@@ -18,19 +19,24 @@ export default function LastQuestion() {
 
                 <div className="home-right">
                     <h2>Last Added Quiz</h2>
+
+                    
+                    {error && <ErrorNotification message={error} type="error" />}
+
+                    
                     {latestQuiz ? (
                         <>
-                        <div className="last-quiz-card">
-                            <h3>{latestQuiz.title}</h3>
-                            <p>Mission Level: {latestQuiz.category}</p>
-                        </div>
+                            <div className="last-quiz-card">
+                                <h3>{latestQuiz.title}</h3>
+                                <p>Mission Level: {latestQuiz.category}</p>
+                            </div>
                             <Link to={`/quiz/${latestQuiz.category}`} className="home-start-button">Start Mission</Link>
-                            </>
+                        </>
                     ) : (
                         <p>No quizzes available yet.</p>
                     )}
                 </div>
             </div>
         </div>
-    )
+    );
 }

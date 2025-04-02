@@ -1,12 +1,38 @@
 import { useEffect, useState } from 'react';
+import ErrorNotification from '../../errorNotification/ErrorNotification';
 import './Facts.css';
 
 export default function Facts() {
-    const [ fact, setFact ] = useState([]);
+    const [fact, setFact] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     
     useEffect(() => {
-        fetch('http://localhost:3000/fact').then(res => res.json()).then(setFact)
+        const fetchFact = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/fact');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch the fact data');
+                }
+                const data = await response.json();
+                setFact(data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        fetchFact();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <ErrorNotification message={error} type="error" />;
+    }
 
     return (
         <article className="fact">

@@ -5,7 +5,9 @@ import { useParams } from "react-router";
 const baseUrl = 'http://localhost:3000/profile';
 
 export const getUserData = (userId) => {
-    return request.get(`${baseUrl}/${userId}`);
+    return request.get(`${baseUrl}/${userId}`).catch(err => {
+        throw err;
+    });
 };
 
 export const updateUserData = (userId, updatedData) => {
@@ -36,14 +38,15 @@ export const useQuizWithUserAnswers = (userId, category) => {
     const [userData, setUserData] = useState(null);
     const [allAnswered, setAllAnswered] = useState(false);
     const [noQuizInCategory, setNoQuizInCategory] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
                 const userResponse = await request.get(`${baseUrl}/${userId}`);
-                
                 setUserData(userResponse);
             } catch (err) {
+                setError('Failed to fetch user data.');
                 console.error("Error fetching user data", err);
             }
         };
@@ -53,11 +56,9 @@ export const useQuizWithUserAnswers = (userId, category) => {
 
     useEffect(() => {
         if (userData && category) {
-            
             const fetchQuestions = async () => {
                 try {
                     const questionsResponse = await request.get(`http://localhost:3000/quiz/${category}`);
-                    
 
                     if (!questionsResponse || questionsResponse.length === 0) {
                         setNoQuizInCategory(true);
@@ -67,36 +68,27 @@ export const useQuizWithUserAnswers = (userId, category) => {
                     }
 
                     if (userData.user && Array.isArray(userData.user.answers)) {
-                        
-
-                        const filteredQuestions = questionsResponse.filter((question) => 
-                            !userData.user.answers.some((answer) => {
-                                
-                                return answer.questionId === question._id;
-                            })
+                        const filteredQuestions = questionsResponse.filter((question) =>
+                            !userData.user.answers.some((answer) => answer.questionId === question._id)
                         );
 
-                        
                         setQuiz(filteredQuestions);
                         setAllAnswered(filteredQuestions.length === 0);
                         setNoQuizInCategory(false);
                     } else {
-                        
                         setQuiz(questionsResponse);
                         setAllAnswered(false);
                         setNoQuizInCategory(false);
                     }
-
                 } catch (err) {
+                    setError('Failed to load quiz questions.');
                     console.error("Error fetching quiz questions", err);
                 }
             };
 
             fetchQuestions();
-        } else {
-            
         }
     }, [userData, category]);
 
-    return { quiz, allAnswered, noQuizInCategory };
+    return { quiz, allAnswered, noQuizInCategory, error };
 };

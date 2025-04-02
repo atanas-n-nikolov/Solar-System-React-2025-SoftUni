@@ -3,9 +3,10 @@ import { Link } from 'react-router';
 import Slider from "react-slick";
 import './PlanetCard.css';
 import { usePlanets } from '../../../api/planetsAPI';
+import ErrorNotification from '../../errorNotification/ErrorNotification';
 
 export default function PlanetCard() {
-    const { planets } = usePlanets();
+    const { planets, error } = usePlanets();
 
     const settings = {
         dots: true,
@@ -32,12 +33,15 @@ export default function PlanetCard() {
             </div>
         );
     }
-    
+
     return (
         <div 
             className="planets-container" 
             style={{ padding: planets.length === 0 ? "0" : "" }}
         >
+            
+            {error && <ErrorNotification message={error} type="error" />}
+            
             {planets.length > 0 ? (
                 <Slider className="catalog-slider" {...settings}>
                     {planets.map((planet) => (
@@ -57,9 +61,9 @@ export default function PlanetCard() {
                         </div>
                     ))}
                 </Slider>
-            ) : null}
+            ) : (
+                <p>No planets available at the moment.</p>
+            )}
         </div>
     );
-    
-    
 }

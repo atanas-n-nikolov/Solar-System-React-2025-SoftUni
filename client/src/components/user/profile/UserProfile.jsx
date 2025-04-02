@@ -20,10 +20,10 @@ export default function UserProfile () {
                     setComments(response.comments);
                     setAnswers(response.user.answers);
                 } else {
-                    setError("User profile or comments not found");
+                    setError("User profile or comments not found.");
                 }
             } catch (err) {
-                setError("Error fetching user profile and comments");
+                setError(err.response?.data?.message || "Error fetching user profile and comments.");
                 console.error("Error fetching user profile:", err);
             } finally {
                 setLoading(false);
@@ -32,21 +32,24 @@ export default function UserProfile () {
 
         if (userId) {
             fetchUserProfile();
+        } else {
+            setError("Invalid user ID");
+            setLoading(false);
         }
     }, [userId]);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (error) return <div className="error-message">Error: {error}</div>;
 
     return (
-        <div>
+        <div className="user-profile">
             <h1>{userData?.firstName} {userData?.lastName}</h1>
             <p>Email: {userData?.email}</p>
             <p>Score: {userData?.score}</p>
 
-            <Link to={`/profile/${userId}/edit`}>Edit Profile</Link>
+            <Link to={`/profile/${userId}/edit`} className="edit-profile-link">Edit Profile</Link>
 
-            <div>
+            <div className="comments-section">
                 <h2>Comments</h2>
                 {comments.length === 0 ? (
                     <p>No comments available.</p>
@@ -63,7 +66,7 @@ export default function UserProfile () {
                 )}
             </div>
 
-            <div>
+            <div className="answered-questions-section">
                 <h2>Answered Questions</h2>
                 {answers.length === 0 ? (
                     <p>No questions answered yet.</p>

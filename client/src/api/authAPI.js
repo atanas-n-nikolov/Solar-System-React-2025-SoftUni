@@ -23,6 +23,7 @@ export const useLogin = () => {
 export const useLogout = () => {
     const { accessToken, userLogoutHandler } = useContext(UserContext);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!accessToken) {
@@ -35,14 +36,14 @@ export const useLogout = () => {
             const options = {
                 headers: {
                     'X-Authorization': accessToken,
-                }
+                },
             };
 
             try {
-                userLogoutHandler();
-
-            } catch (error) {
-                console.error("Logout failed", error);
+                await userLogoutHandler();
+            } catch (err) {
+                setError("Logout failed. Please try again later.");
+                console.error("Logout failed", err);
             } finally {
                 setIsLoggingOut(false);
             }
@@ -53,5 +54,6 @@ export const useLogout = () => {
 
     return {
         isLoggingOut,
+        error,
     };
 };

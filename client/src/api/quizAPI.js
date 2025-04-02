@@ -5,35 +5,45 @@ const baseUrl = 'http://localhost:3000/quiz';
 
 export const useQuiz = () => {
     const [quiz, setQuiz] = useState([]);
+    const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        request.get(baseUrl)
-            .then(setQuiz)
+        const fetchQuiz = async () => {
+            try {
+                const response = await request.get(baseUrl);
+                setQuiz(response);
+            } catch (error) {
+                setError('Failed to load quizzes. Please try again later.');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchQuiz();
     }, []);
 
-    return { quiz };
+    return { quiz, error, loading };
 };
 
 export const useLatestQuiz = () => {
-    const [latestQuiz, setLatestQuiz] = useState([]);
+    const [latestQuiz, setLatestQuiz] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        request.get(`${baseUrl}/latest-quiz`)
-            .then(setLatestQuiz)
+        const fetchQuiz = async () => {
+            try {
+                const response = await request.get(`${baseUrl}/latest-quiz`);
+                setLatestQuiz(response);
+            } catch (error) {
+                setError('Failed to load the latest quiz. Please try again later.');
+            }
+        };
+
+        fetchQuiz();
     }, []);
 
-    return { latestQuiz };
-};
-
-export const useQuizCategory = (category) => {
-    const [quiz, setQuiz] = useState([]);
-
-    useEffect(() => {
-        request.get(`${baseUrl}/${category}`).then(setQuiz)
-
-    }, [category]);
-
-    return { quiz };
+    return { latestQuiz, error };
 };
 
 export const useSubmitQuiz = (quizData, userAnswers) => {

@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 export default function QuizForm() {
     const { category } = useParams();
     const { _id } = useContext(UserContext);
-    const { quiz, allAnswered, noQuizInCategory } = useQuizWithUserAnswers(_id, category);
+    const { quiz, allAnswered, noQuizInCategory, error } = useQuizWithUserAnswers(_id, category);
 
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function QuizForm() {
         submitQuiz();
     };
 
-    const { submitQuiz, result, loading, error } = useSubmitQuiz(quiz, userAnswers.current);
+    const { submitQuiz, result, loading, submitError } = useSubmitQuiz(quiz, userAnswers.current);
 
     useEffect(() => {
         if (result !== null && result !== undefined) {
@@ -61,6 +61,7 @@ export default function QuizForm() {
 
     return (
         <div className="quiz-wrapper">
+            {submitError && <p className="error">{submitError}</p>}
             {error && <p className="error">{error}</p>}
 
             {result !== null && result !== undefined && (
