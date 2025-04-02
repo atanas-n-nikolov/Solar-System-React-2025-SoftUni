@@ -1,19 +1,20 @@
-import { Link, useNavigate, useParams } from "react-router";
-import { useQuizCategory, useSubmitQuiz } from "../../../api/quizAPI";
-import { updateUserData } from "../../../api/userAPI";
 import './QuizForm.css';
+import { updateUserData, useQuizWithUserAnswers } from "../../../api/userAPI";
 import { useContext, useEffect, useState, useRef } from "react";
 import { UserContext } from "../../../contexts/UserContext";
+import { useNavigate, useParams } from "react-router";
+import { useSubmitQuiz } from "../../../api/quizAPI";
+import { Link } from 'react-router';
 
 export default function QuizForm() {
     const { category } = useParams();
-    const { quiz } = useQuizCategory(category);
+    const { _id } = useContext(UserContext);
+    const { quiz, allAnswered, noQuizInCategory } = useQuizWithUserAnswers(_id, category);
+
     const [seconds, setSeconds] = useState(3);
     const navigate = useNavigate();
-    const { _id } = useContext(UserContext);
-
     const hasNavigated = useRef(false);
-    
+
     const userAnswers = useRef({});
 
     const handleSubmit = (event) => {
@@ -25,7 +26,6 @@ export default function QuizForm() {
 
     useEffect(() => {
         if (result !== null && result !== undefined) {
-            
             if (_id) {
                 updateUserData(_id, { score: result.score, answers: result.correctAnswers })
                     .then((response) => {
@@ -44,7 +44,7 @@ export default function QuizForm() {
                             hasNavigated.current = true;
                             setTimeout(() => {
                                 navigate('/');
-                            }, 0); 
+                            }, 0);
                         }
                     }
                     return prev - 1;
@@ -54,6 +54,10 @@ export default function QuizForm() {
             return () => clearInterval(timer);
         }
     }, [result, navigate, _id]);
+
+    if (noQuizInCategory) {
+        return <h2>No quiz in this category yet</h2>;
+    }
 
     return (
         <div className="quiz-wrapper">
@@ -113,8 +117,8 @@ export default function QuizForm() {
                 </div>
             )}
 
-            {quiz.length === 0 && !error && (
-                <h2>Not quiz in this category yet</h2>
+            {allAnswered && !error && (
+                <h2>You have answered all the questions in this category!</h2>
             )}
         </div>
     );
