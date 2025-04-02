@@ -15,6 +15,8 @@ import PlanetDetails from './components/planetsDetails/PlanetDetails'
 import QuizForm from './components/quiz/quizForm/QuizForm'
 import UserProfile from './components/user/profile/UserProfile'
 import EditProfile from './components/user/edit/EditProfile'
+import GuestGuard from './components/guards/GuestGuard'
+import UserGuard from './components/guards/UserGuard'
 
 export default function App() {
 
@@ -28,13 +30,17 @@ export default function App() {
                         </Route>
                         <Route path="/planets" element={<Planets />} />
                         <Route path="/planet/:planetId" element={<PlanetDetails />} />
-                        <Route path="/sign-up" element={<Register />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/logout" element={<Logout />} />
-                        <Route path="/profile/:userId" element={<UserProfile />} />
-                        <Route path="/profile/:userId/edit" element={<EditProfile />} />
-                        <Route path="/quiz" element={<Quiz />} />
-                        <Route path="/quiz/:category" element={<QuizForm />} />
+                        <Route element={<GuestGuard />}>
+                            <Route path="/sign-up" element={<Register />} />
+                            <Route path="/login" element={<Login />} />
+                        </Route>
+                        <Route element={<UserGuard />}>
+                            <Route path="/logout" element={<Logout />} />
+                            <Route path="/profile/:userId" element={<UserProfile />} />
+                            <Route path="/profile/:userId/edit" element={<EditProfile />} />
+                            <Route path="/quiz" element={<Quiz />} />
+                            <Route path="/quiz/:category" element={<QuizForm />} />
+                        </Route>
                     </Routes>
                 </main>
                 <Footer />

@@ -36,6 +36,7 @@ const UserProfile = () => {
         <div>
             <h1>{userData.firstName} {userData.lastName}</h1>
             <p>Email: {userData.email}</p>
+            <p>Score: {userData.score}</p>
 
             <Link to={`/profile/${userId}/edit`}>Edit Profile</Link>
 
