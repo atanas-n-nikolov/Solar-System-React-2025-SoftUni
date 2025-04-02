@@ -7,11 +7,9 @@ export const getUserData = (userId) => {
 };
 
 export const updateUserData = (userId, updatedData) => {
-    console.log("Updating user data for userId:", userId, "with data:", updatedData);
     if(updatedData.score) {
         return request.put(`${baseUrl}/${userId}/score`, updatedData)
         .then(response => {
-            console.log("Response from updateUserData:", response);
             return response;
         })
         .catch(err => {
@@ -21,7 +19,6 @@ export const updateUserData = (userId, updatedData) => {
     } else {
         return request.put(`${baseUrl}/${userId}/edit`, updatedData)
         .then(response => {
-            console.log("Response from updateUserData:", response);
             return response;
         })
         .catch(err => {
@@ -30,4 +27,16 @@ export const updateUserData = (userId, updatedData) => {
         });
     }
 
+};
+
+export const getUserComments = (userId) => {
+
+    return request.get(`${baseUrl}/${userId}/comments`)
+        .then(response => {
+            return response;
+        })
+        .catch(err => {
+            console.error("Error fetching user comments:", err);
+            throw err;
+        });
 };

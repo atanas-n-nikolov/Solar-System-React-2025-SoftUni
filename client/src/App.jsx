@@ -14,6 +14,7 @@ import Logout from './components/logout/Logout'
 import PlanetDetails from './components/planetsDetails/PlanetDetails'
 import QuizForm from './components/quiz/quizForm/QuizForm'
 import UserProfile from './components/user/profile/UserProfile'
+import EditProfile from './components/user/edit/EditProfile'
 
 export default function App() {
 
@@ -31,6 +32,7 @@ export default function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/logout" element={<Logout />} />
                         <Route path="/profile/:userId" element={<UserProfile />} />
+                        <Route path="/profile/:userId/edit" element={<EditProfile />} />
                         <Route path="/quiz" element={<Quiz />} />
                         <Route path="/quiz/:category" element={<QuizForm />} />
                     </Routes>

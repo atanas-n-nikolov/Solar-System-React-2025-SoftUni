@@ -1,11 +1,18 @@
 import { useParams } from 'react-router';
 import { usePlanet } from '../../api/planetsAPI';
-
 import './PlanetDetails.css';
 
 export default function PlanetDetails() {
     const { planetId } = useParams();
-    const { planet } = usePlanet(planetId);
+    const { planet, error, loading } = usePlanet(planetId);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div className="planet-details">
@@ -20,10 +27,25 @@ export default function PlanetDetails() {
                     <p><strong>Size:</strong> {planet.size}</p>
                 </div>
             </div>
+
             <div className="planet-info">
                 <h3>More Information</h3>
                 <p>{planet.info}</p>
             </div>
+
+            <div className="planet-comments">
+                <h3>Comments</h3>
+                {planet.comments?.length > 0 ? (
+                    planet.comments.map((comment, index) => (
+                        <div key={index} className="comment">
+                            <p><strong>{comment.user.firstName} {comment.user.lastName}</strong>: {comment.text}</p>
+                            <p><em>{new Date(comment.createdAt).toLocaleString()}</em></p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No comments yet.</p>
+                )}
+            </div>
         </div>
-    )
-};
+    );
+}
