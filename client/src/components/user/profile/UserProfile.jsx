@@ -75,8 +75,8 @@ export default function UserProfile() {
                     <p>No comments available.</p>
                 ) : (
                     <ul>
-                        {comments.map((comment) => (
-                            <li key={comment._id}>
+                        {comments.map((comment, index) => (
+                            <li key={index}>
                                 <p><strong>Planet:</strong> {comment.planetName}</p>
                                 <p><strong>Comment:</strong> {comment.commentText}</p>
                                 <p><small>Posted on: {new Date(comment.createdAt).toLocaleString()}</small></p>
